@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+  <form action="" method="post" id="myform">
+    {% csrf_token %}
+      <div class="container m-5">
+        <div class="mb-3 mt-3">
+            <label for="title" class="form-label">제목:</label>
+            <input type="text" class="form-control" id="title" value="{{boardItem.title}}" name="title" required>
+        </div>    
+     </div>
+     <div class="container m-5">
+        <div class="mb-3 mt-3">
+            <label for="username" class="form-label">작성자:</label>
+            <input type="text" class="form-control" id="username" value="{{boardItem.username}}" name="username" required>
+        </div>    
+     </div>
+     <div class="container m-5">
+        <div class="mb-3 mt-3">
+            <label for="contents" class="form-label">내용:</label>
+            <textarea class="form-control" rows="5" id="contents" name="contents"></textarea>
+        </div>    
+     </div>
+     
+      <div class="container mt-5" style="text-align:right;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" id="btnWrite">저장</button>
+      </div>
+    </div>
+  </form>
+
+<script>
+  function goPage(pg)
+  {
+    location.href="/board/list/"+pg;
+
+  }
+  // 이 html 문서가 모두 메모리에 로딩되면 이 부분이 호출된다 
+  // $(document).ready (()=> {
+  //   alert("Jquery");
+  // })
+
+  $(document).ready(()=> {
+    $("#btnWrite").click(()=>{
+      // 화살표 함수는 this 사용 못함 
+      $("#myform").prop("action", "/board/save2/{{boardItem.postnum}}");
+      $("#myform").prop("method", "post");
+      $("#myform").submit();
+    });
+  })
+</script>
+
+{%endblock%}

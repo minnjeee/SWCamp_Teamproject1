@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% block content %}
+  <form action="" method="post" id="myform">
+    {% csrf_token %}
+      <div class="container m-5">
+        <div class="mb-3 mt-3">
+            <label for="title" class="form-label">제목:</label>
+            <input type="text" class="form-control" id="title" placeholder="Enter title" name="title" required>
+        </div>    
+     </div>
+     <div class="container m-5">
+        <div class="mb-3 mt-3">
+            <label for="username" class="form-label">작성자:</label>
+            <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
+        </div>    
+     </div>
+     <div class="container m-5">
+        <div class="mb-3 mt-3">
+            <label for="contents" class="form-label">내용:</label>
+            <textarea class="form-control" rows="5" id="contents" name="contents"></textarea>
+        </div>    
+     </div>
+     
+
+
+      <div class="container mt-5" style="text-align:right;">
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary" id="btnWrite">저장</button>
+      </div>
+    </div>
+  </form>
+
+<script>
+  function goPage(pg)
+  {
+    location.href="/board/list/"+pg;
+
+  }
+  // 이 html 문서가 모두 메모리에 로딩되면 이 부분이 호출된다 
+  // $(document).ready (()=> {
+  //   alert("Jquery");
+  // })
+
+  $(document).ready(()=> {
+    $("#btnWrite").click(() => {
+      // csrf = $("input[type=hidden][name=csrfmiddlewaretoken]").val();
+      var contents = $("#contents").val();
+
+      if (contents !== null && contents.trim() !== "") {
+        $.ajax({
+          url: "/board/save",
+          data: {
+            title: $("#title").val(),
+            csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+            username: $("#username").val(),
+            contents: contents,
+          },
+          type: "post",
+          dataType: "json",
+        })
+          .done((res) => {
+            if (res.result == "success") {
+              alert("등록 성공");
+              window.location.href = "/board/list/0";
+            } else {
+              alert("등록 실패");
+            }
+          })
+          .fail((res, error, status) => {
+            console.log(status);
+          });
+      } else {
+        alert("내용을 입력해주세요.");
+      }
+    });
+  })
+</script>
+
+{%endblock%}

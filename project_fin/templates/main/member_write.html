@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% block content %}
+
+      {% csrf_token %}
+      <input type="hidden" name="idcheckyn" id="idcheckyn" value="N" >
+      <div class="container mt-5">
+    
+        <div class="mb-3 mt-3">
+          <label for="title" class="form-label">사용자아이디:</label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="중복체크" name="userid"  id="userid">
+            <button class="btn btn-success" type="button" id="btnIdCheck">중복체크</button>
+          </div>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="password" class="form-label">패드워드:</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter password" name="password" required>
+        </div>
+        
+        <div class="mb-3 mt-3">
+          <label for="password2" class="form-label">패드워드확인:</label>
+          <input type="password" class="form-control" id="password2" placeholder="Enter password" name="password2" required>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="username" class="form-label">사용자명:</label>
+          <input type="text" class="form-control" id="username" placeholder="Enter username" name="username" required>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="email" class="form-label">이메일:</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter email" name="email" required>
+        </div>
+
+        <div class="mb-3 mt-3">
+          <label for="phone" class="form-label">전화번호:</label>
+          <input type="phone" class="form-control" id="phone" placeholder="Enter phone" name="phone" required>
+        </div>
+             
+      </div>
+
+    <div class="container mt-5" style="text-align:right"> 
+        <div class="btn-group">
+            <button type="button" class="btn btn-primary" id="btnWrite">등록</button>
+        </div>
+    </div>
+
+
+<script>
+
+
+//이 html문서가 모두 메모리에 로딩되면 이부분이 호출된다. 
+$(document).ready( ()=>{
+    $("#btnIdCheck").click( ()=>{
+      console.log("****************");
+      csrf = $("input[type=hidden][name=csrfmiddlewaretoken]").val();
+      console.log( csrf );
+      $.ajax({
+        url:"/member/idcheck",
+        data:{"userid":$("#userid").val(), "csrfmiddlewaretoken":csrf}, 
+        type:"post",
+        dataType:"json"
+      })
+      .done( (res)=>{
+          console.log( res );
+          if( res.result=='success')
+          {
+            alert("사용가능한 아이디입니다");
+            $("#idcheckyn").val("Y");
+            $("#userid").prop("readonly", true); //읽기전용 
+            //disabled(서버로 정보를 보내지 않는다), readonly(서버로 정보를 전송한다 ) 
+          }
+          else
+          {
+            alert("이미 사용중인 아이디입니다");
+          }
+      })
+      .fail((res, error, status)=>{
+        console.log(status);
+      })
+    });
+
+    $("#btnWrite").click(() => {
+      csrf = $("input[type=hidden][name=csrfmiddlewaretoken]").val();
+      console.log(csrf);
+      var password = $("#password").val();
+      var password2 = $("#password2").val();
+
+      if (password === password2) {
+        $.ajax({
+          url: "/member/save",
+          data: {
+            userid: $("#userid").val(),
+            csrfmiddlewaretoken: csrf,
+            password: password,
+            username: $("#username").val(),
+            phone: $("#phone").val(),
+            email: $("#email").val(),
+          },
+          type: "post",
+          dataType: "json",
+        })
+          .done((res) => {
+            if (res.result == "success") {
+              alert("등록 성공");
+              window.location.href = "/main/login";
+            } else {
+              alert("등록 실패");
+            }
+          })
+          .fail((res, error, status) => {
+            console.log(status);
+          });
+      } else {
+        alert("비밀번호가 일치하지 않습니다. 다시 확인하세요.");
+      }
+    });
+}) 
+</script>
+
+
+{%endblock%}

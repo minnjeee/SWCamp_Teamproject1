@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="{% static 'js/jquery-3.7.0.min.js' %}"></script>
+</head>
+<body>
+    <h1>Ajax test</h1>
+    <div id = "result">   </div>
+    <button id = "btnCall">ajax 호출하기</button>
+</body>
+</html>
+<script>
+    $(document).ready(()=>{
+        $("#btnCall").click( ()=>{
+            //ajax 호출함수이름이 ajax
+            //비동기호출
+            //동기방식과 (함수를 호출하면 함수가 일처리가 끝나야 return을 한다)
+            //a 실행하고 a 끝나고 b 실행하고  b 끝나고 c 실행하고 c 끝나고
+
+
+            //비동기 방식 a,b,c 얼마만큼의 시간이 걸릴 지 모름
+            //a를 시작하고 바로 리턴 - 일은 아직 안 끝남, 시스템이 백그라운드에서 
+            //대신 일처리를 하고, 일이 끝났음을 알리는 함수를 a한ㅌ테 전달해야 한다 
+            //callA(), callB(), callC()
+            //callA(callback), callA(callback), callA(callback)
+            //서버로부터 응답이 왔을 때 성공이면 done이 호출된다 
+            //실패면 fail이 호출된다 
+            // {} ->Json 
+            $.ajax({url:"/ajax/result", //서버 url 
+                    data: {},           //보낼 데이터
+                    type:'get',         //데이터 전송방식 지정
+                    dataType:"json"})   //데이터 수신방식 지정
+            .done((response, error, status)=>{
+                //response - 결과 
+                console.log(response); 
+                $("#result").html(response.result);
+            }) //성공시
+            .fail((response, error, status)=>{
+                console.log(status); 
+            }) //실패시 
+        })
+    })
+</script>

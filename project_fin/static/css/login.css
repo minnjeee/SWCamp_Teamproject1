@@ -1,0 +1,70 @@
+@font-face {
+    font-family:Georgia, 'Times New Roman', Times, serif, Times, serif;
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/MBC1961GulimM.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'MBC1961GulimM';
+}
+
+body {
+    background-color: white;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height:100vh;
+}
+
+fieldset {
+    width : 400px;
+    height:300px;
+    border-color:rgb(181, 178, 178);
+    border-style:ridge;
+    font-size:2em;
+    font-weight:900;
+    border-radius:10px;
+}
+
+legend {
+    text-shadow : 1px 1px 1px white;
+}
+
+input {
+    width : 300px;
+    height:50px;
+    padding:10px;
+    margin:10px;
+    border-radius:10px;
+    border-color:rgba(105, 104, 104, 0.6);
+    border-width:3px;
+    position:relative;
+    left:15px;
+    top:30px;
+    background-color:white;
+
+}
+
+input:focus {
+    border-color:black;
+    outline-color:black;
+}
+
+button {
+    width : 120px;
+    height : 50px;
+    font-size:0.7em;
+    position:relative;
+    top:40px;
+    left:53px;
+    border-radius:10px;
+    border-style:outset;
+    border-color:white;
+    background-color:rgba(0, 0, 0, 0.264);
+}
+
+button:hover {
+    border-style:inset;
+}

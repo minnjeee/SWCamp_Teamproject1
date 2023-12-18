@@ -1,0 +1,64 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/sever1.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'assets/favicon.ico' %}" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/detail.css' %}" rel="stylesheet" />
+    <script src="{% static 'js/jquery-3.7.0.min.js' %}"></script>
+    
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="/main">HOME</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                    <li class="nav-item"><a class="nav-link active" aria-current="page" href="/board/list/0">소통해요📣</a></li>
+                    
+                </ul>
+                <form class="d-flex">
+                    <button class="btn btn-outline-dark" type="button" id="btnLogin">
+                        <i class=""></i>
+                        로그인
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                    </button>
+                    <button class="btn btn-outline-dark" type="button" id="btnSignin">
+                        <i class=""></i>
+                        회원가입
+                        <span class="badge bg-dark text-white ms-1 rounded-pill"></span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
+
+</body>
+</html>
+
+<script>
+
+    $(document).ready(() => {
+            $("#btnLogin").click(() => {
+                window.location.href = "/main/login";
+            });
+
+            $("#btnSignin").click(() => {
+                window.location.href = "/main/signin";
+            });
+        });
+</script>

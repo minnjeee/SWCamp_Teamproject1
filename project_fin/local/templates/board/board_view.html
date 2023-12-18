@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block content %}
+<form action="" method="post" id="myform">
+  {% csrf_token %}
+      <div class="container m-5">
+        <table class="table">
+            <colgroup>
+                <col width="13%"/>
+                <col width="20%"/>
+                <col width="13%"/>
+                <col width="20%"/>
+                <col width="13%"/>
+                <col width="20%"/>
+                
+            </colgroup>
+            
+            <tbody>
+                <tr>
+                    <th>제목</th>
+                    <td colspan="5">{{boardItem.title}}</td>
+                </tr>
+                <tr>
+                  <th>작성자</th>
+                  <td>{{boardItem.username}}</td>
+                  <th>작성일</th>
+                  <td>{{boardItem.wdate}}</td>
+                  <th>조회수</th>
+                  <td>{{boardItem.hit}}</td>
+                </tr>
+                <tr>
+                  <th>내용</th>
+                  <!-- textarea의 \n </br>로 바꿔주는 필터  -->
+                  <!-- 필터 정리해놓은 사이트 http:// devlink.tistory.com/306 -->
+                  <td colspan="5">{{boardItem.contents|linebreaks}}</td>
+                </tr>
+            </tbody>
+          </table>
+      </div>
+ 
+
+      <div class="container mt-5" style="text-align:right;">
+      <div class="btn-group">
+        <input type="hidden" name="board_id" value="{{ boardItem.postnum }}">
+        <button type="button" class="btn btn-primary" id="btnModify">수정 </button>
+        <button type="button" class="btn btn-primary" id="btnDelete">삭제 </button>
+        <button type="button" class="btn btn-primary" id="btnList">목록 </button>
+      </div>
+    </div>
+  </form>
+
+<script>
+  function goPage(pg)
+  {
+    location.href="/board/list/"+pg;
+
+  }
+  // 이 html 문서가 모두 메모리에 로딩되면 이 부분이 호출된다 
+  // $(document).ready (()=> {
+  //   alert("Jquery");
+  // })
+
+  $(document).ready(()=> {
+    $("#btnModify").click(()=>{
+      // 화살표 함수는 this 사용 못함 
+      $("#myform").prop("action", "/board/write");
+      $("#myform").prop("method", "post");
+      $("#myform").submit();
+    });
+  })
+</script>
+
+{%endblock%}
